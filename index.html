@@ -1,1 +1,79 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Prop Betting Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        p, li {
+            color: #666;
+        }
+        .section {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+        .references ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .references li {
+            margin: 5px 0;
+        }
+        .references a {
+            text-decoration: none;
+            color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Player Prop Betting Analysis</h1>
+        <h2>Introduction</h2>
+        <p>Player prop betting has gained popularity as a form of sports betting that focuses on individual player performance rather than overall game outcomes. In recent years, research has explored statistical modeling techniques to predict player performance in NFL football — see [2]. To conduct this analysis, we compiled a dataset that integrates predicted player betting lines from platforms such as PrizePicks and other major sportsbooks (<a href="https://the-odds-api.com/historical-odds-data/#how-to-access-historical-odds-data" target="_blank">The Odds API</a>). Historical player statistics are sourced from ESPN to provide context for individual performance trends (<a href="https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c" target="_blank">Source 1</a> / <a href="https://github.com/cwendt94/espn-api" target="_blank">Source 2</a> / <a href="https://github.com/MarcLinderGit/NFL_Stats" target="_blank">Source 3</a>). Additionally, Natural Language Processing (NLP) is applied to analyze weekly articles and news reports, capturing player sentiment and performance trends over time. See additional information about NLP here – [1].</p>
+    </div>
+
+    <div class="section">
+        <h2>Problem Definition</h2>
+        <p><strong>Problem:</strong> Predicting whether NFL players will meet their projected betting lines is difficult due to unpredictable performance variations and external factors like injuries and game conditions.</p>
+        <p><strong>Motivation:</strong> Building a reliable prediction model for player props can help bettors and analysts make informed decisions and identify inefficiencies in sportsbook projections.</p>
+    </div>
+
+    <div class="section">
+        <h2>Methods</h2>
+        <p>There are two separate approaches we are taking in order to predict player outcomes: using player statistics and using articles written about the player in the coming days leading up to the game.</p>
+        <h3>Statistics Approach</h3>
+        <p>We will use an ESPN API to gather statistics for a pre-chosen set of players in the past. We will then feature engineer the dataset (e.g., getting rid of irrelevant statistics, aggregating overlapping features) to enhance the quality of our training data. We will then pass this data into a supervised learning technique such as random forest.</p>
+        <h3>Articles Approach</h3>
+        <p>We will web scrape articles from the same set of pre-chosen players in the coming days before past games. We will then clean the articles by removing irrelevant pieces of information on the page that we web scraped, in addition to performing standard text cleaning on data (removing punctuation, removing stopwords, etc.). We then perform topic modeling on the articles using Latent Dirichlet Allocation (LDA). After this, we need to find the correlation between the topics and the game outcomes for the player. To do this, we perform logistic regression with the features being the found article topics and the labels being the outcome of the game.</p>
+    </div>
+
+    <div class="section">
+        <h2>Results and Discussion</h2>
+        <p>For this project, we plan on using three quantitative metrics: Root Mean Squared Error (RMSE), F1 Score, and Area Under the ROC Curve (ROC-AUC). We will use RMSE to measure prediction accuracy for certain variables, F1 Score to evaluate performance on whether players meet their props, and ROC-AUC to measure the ability of the model to distinguish between successful and unsuccessful outcomes. In terms of project goals, we aim to improve prediction accuracy while minimizing bias in the evaluation of player performance. We aim to achieve an RMSE less than 15 and F1 Score above 0.55. We also want to aim for an ROC-AUC of at least 0.65. As for expected results, we expect this model to correctly predict player props at least 53% of the time. This would indicate that our model is profitable because the odds are in the house's favor.</p>
+    </div>
+
+    <div class="section references">
+        <h2>References</h2>
+        <ul>
+            <li>[1] Additional information about NLP: <a href="https://nlp.stanford.edu/" target="_blank">NLP @ Stanford</a></li>
+            <li>[2] NFL Player Prop Research: <a href="https://arxiv.org/abs/1912.07431" target="_blank">arXiv:1912.07431</a></li>
+            <li>The Odds API: <a href="https://the-odds-api.com/historical-odds-data/#how-to-access-historical-odds-data" target="_blank">Historical Odds Data</a></li>
+            <li>Source 1: <a href="https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c" target="_blank">Gist - NFL Stats</a></li>
+            <li>Source 2: <a href="https://github.com/cwendt94/espn-api" target="_blank">ESPN API</a></li>
+            <li>Source 3: <a href="https://github.com/MarcLinderGit/NFL_Stats" target="_blank">NFL Stats GitHub Repository</a></li>
+        </ul>
+    </div>
+</body>
+</html>
